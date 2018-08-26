@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activity_Register" />
-        <activity android:name=".CellPhone"></activity>
+        <activity android:name=".CellPhone" />
+        <activity android:name=".Activity_SinglePhone" />
     </application>
 
 </manifest>

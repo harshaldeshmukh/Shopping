@@ -1,5 +1,8 @@
 package com.example.hp.shopping;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +26,10 @@ public class CellAdapter extends RecyclerView.Adapter<CellAdapter.Holder> {
     private int lastVisibleItem, totalItemCount;
     private boolean loading;
     private OnLoadMoreListener onLoadMoreListener;
+    Context context;
 
-    public CellAdapter(List<CellPhones> cellPhones) {
+    public CellAdapter(Context context, List<CellPhones> cellPhones) {
+        this.context=context;
         this.cellPhoneslist = cellPhones;
 //
     }
@@ -38,7 +43,7 @@ public class CellAdapter extends RecyclerView.Adapter<CellAdapter.Holder> {
     public Holder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         Holder holder;
         if (viewType == VIEW_ITEM) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_row, viewGroup, false);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_cell, viewGroup, false);
             holder = new Holder(view);
         } else {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.progressbar, viewGroup, false);
@@ -50,13 +55,19 @@ public class CellAdapter extends RecyclerView.Adapter<CellAdapter.Holder> {
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        CellPhones currentFlower = cellPhoneslist.get(position);
+     final   CellPhones currentFlower = cellPhoneslist.get(position);
 
-        holder.flowerName.setText(currentFlower.category_id);
-        holder.flowerCategory.setText(currentFlower.category);
-        holder.flowerPrice.setVisibility(View.GONE);
-        holder.flowerInstruction.setVisibility(View.GONE);
-       // Picasso.with(holder.itemView.getContext()).load(Constants.PHOTO_URL + currentFlower.mPhoto).into(holder.flowerImage);
+        holder.flowerName.setText(currentFlower.category+" "+currentFlower.category_id);
+        holder.cardview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context,Activity_SinglePhone.class);
+                i.putExtra("headline",currentFlower.category);
+                i.putExtra("id",currentFlower.category_id);
+                context.startActivity(i);
+
+            }
+        });
 
     }
     public void setLoaded() {
@@ -79,17 +90,18 @@ public class CellAdapter extends RecyclerView.Adapter<CellAdapter.Holder> {
     }
 
     public class Holder extends RecyclerView.ViewHolder {
-        TextView flowerName, flowerCategory, flowerPrice, flowerInstruction;
-        ImageView flowerImage;
+        TextView flowerName;
+        CardView cardview;
 
         public Holder(View itemView) {
             super(itemView);
 
             flowerName = (TextView) itemView.findViewById(R.id.flowerName);
-            flowerCategory = (TextView) itemView.findViewById(R.id.flowerCategory);
-            flowerPrice = (TextView) itemView.findViewById(R.id.flowerPrice);
-            flowerInstruction = (TextView) itemView.findViewById(R.id.flowerInstruction);
-            flowerImage = (ImageView) itemView.findViewById(R.id.flowerImage);
+            cardview=(CardView)itemView.findViewById(R.id.cardview);
+//            flowerCategory = (TextView) itemView.findViewById(R.id.flowerCategory);
+//            flowerPrice = (TextView) itemView.findViewById(R.id.flowerPrice);
+//            flowerInstruction = (TextView) itemView.findViewById(R.id.flowerInstruction);
+//            flowerImage = (ImageView) itemView.findViewById(R.id.flowerImage);
         }
 
 

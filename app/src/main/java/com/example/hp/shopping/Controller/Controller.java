@@ -6,6 +6,8 @@ import com.example.hp.shopping.CellI;
 import com.example.hp.shopping.CellPhone;
 import com.example.hp.shopping.Model.CellPhones;
 import com.example.hp.shopping.Model.Flower;
+import com.example.hp.shopping.Model.Specific_Model;
+import com.example.hp.shopping.Specificitem;
 import com.example.hp.shopping.api.RestApiManager;
 import com.google.gson.JsonArray;
 
@@ -24,20 +26,20 @@ public class Controller {
    private RestApiManager restApiManager;
     private FlowerCallbackListener mListener;
     private CellI cellI;
+    private Specificitem specificitem;
 
     public Controller( FlowerCallbackListener mListener) {
-
         this.mListener = mListener;
-
-        this.cellI=cellI;
-
         restApiManager= new RestApiManager();
     }
 
     public Controller( CellI cellI) {
-
         this.cellI=cellI;
+        restApiManager= new RestApiManager();
+    }
 
+    public Controller( Specificitem specificitem) {
+        this.specificitem=specificitem;
         restApiManager= new RestApiManager();
     }
 
@@ -48,12 +50,9 @@ public class Controller {
             public void success(String s, Response response) {
                 Log.d(TAG, "JSON ::::" + s);
                 try {
-
                     JSONArray jsonArray = new JSONArray(s);
                     for (int i = 0; i < jsonArray.length(); i++) {
-
                         JSONObject object = jsonArray.getJSONObject(i);
-
                         Flower flower = new Flower.Builder() .setCategory(object.getString("category"))
                                 .setPrice(object.getDouble("price"))
                                 .setInstructions(object.getString("instructions"))
@@ -61,7 +60,6 @@ public class Controller {
                                 .setName(object.getString("name"))
                                 .setProductId(object.getInt("productId"))
                                 .build();
-
                         mListener.onFetchProgress(flower);
 
                     }
@@ -69,7 +67,6 @@ public class Controller {
                     e.printStackTrace();
                     mListener.onFetchFailed();
                 }
-
                 mListener.onFetchComplete();
             }
 
@@ -90,27 +87,56 @@ public class Controller {
                 Log.d(TAG, "JSON ::::" + s);
                 try {
                     JSONObject jsonObject = new JSONObject(s);
-
                     JSONArray jsonArray = jsonObject.getJSONArray("categories");
                     for (int i = 0; i < jsonArray.length(); i++) {
-
                         JSONObject object = jsonArray.getJSONObject(i);
-
                         CellPhones cellPhones = new CellPhones.Builder()  .setCategory(object.getString("category"))
                                 .setCategory_id(object.getString("category_id"))
-
                                 .build();
-
-
                         cellI.onFetchProgress1(cellPhones);
-
-                    }
+                        }
                 }catch (JSONException e){
                     e.printStackTrace();
                     cellI.onFetchFailed();
                 }
-
                 cellI.onFetchComplete();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d(TAG, "Error :: " + error.getMessage());
+                cellI.onFetchComplete();
+
+            }
+        });
+    }
+
+    public  void  startcategorycellfeching(){
+        restApiManager.getPhoneApi().getCategoryCells(new Callback<String>() {
+            @Override
+            public void success(String s, Response response) {
+                Log.d(TAG, "JSON ::::" + s);
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    JSONArray jsonArray = jsonObject.getJSONArray("products");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject object = jsonArray.getJSONObject(i);
+
+                        JSONObject productJsonObject = object.getJSONObject("main_pair");
+
+                        JSONObject productJsonObject1 = productJsonObject.getJSONObject("detailed");
+                        Specific_Model specificModel = new Specific_Model.Builder()  .setProduct(object.getString("product"))
+                                .setProduct_code(object.getString("product_code")).setFree_shipping(object.getString("free_shipping"))
+                                .setImage_path(productJsonObject1.getString("image_path"))
+
+                                .build();
+                        specificitem.onFetchProgress(specificModel);
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
+                    specificitem.onFetchFailed();
+                }
+                specificitem.onFetchComplete();
             }
 
             @Override

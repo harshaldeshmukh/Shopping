@@ -5,33 +5,43 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
+import com.example.hp.shopping.Adapters.SpeicificItemAdapter;
 import com.example.hp.shopping.Controller.Controller;
-import com.example.hp.shopping.Model.CellPhones;
+import com.example.hp.shopping.Model.Specific_Model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CellPhone extends AppCompatActivity implements CellI {
+public class Activity_SinglePhone extends AppCompatActivity implements  Specificitem {
+    Toolbar toolbar;
+    TextView mTitle;
+    String toolbartitle;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private List<CellPhones> cellPhonesList = new ArrayList<>();
+    private List<Specific_Model> specificModelList = new ArrayList<>();
 
-    public   CellAdapter CellAdapter;
+    public SpeicificItemAdapter speicificItemAdapter;
     public Controller mController;
-
     LinearLayoutManager mLayoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cell_phone);
-        mController = new Controller(CellPhone.this);
-        configViews();
-        mController.startcellfeching();
-    }
+        setContentView(R.layout.activity__single_phone);
 
-    private void configViews() {
+        toolbar = (Toolbar)findViewById(R.id.toolbarsss);
 
+        toolbartitle=getIntent().getStringExtra("headline");
+         mTitle = (TextView) findViewById(R.id.toolbar_title);
+         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        mTitle.setText(toolbartitle);
+        mController = new Controller(Activity_SinglePhone.this);
+
+        mController.startcategorycellfeching();
         recyclerView = (RecyclerView)findViewById(R.id.recycleview);
         swipeRefreshLayout=(SwipeRefreshLayout)findViewById(R.id.swiperefresh) ;
 
@@ -40,11 +50,8 @@ public class CellPhone extends AppCompatActivity implements CellI {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setRecycledViewPool(new RecyclerView.RecycledViewPool());
 
-
-
-
-        CellAdapter = new CellAdapter(getApplicationContext(),cellPhonesList);
-        recyclerView.setAdapter(CellAdapter);
+        speicificItemAdapter = new SpeicificItemAdapter(getApplicationContext(),specificModelList);
+        recyclerView.setAdapter(speicificItemAdapter);
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent),
                 getResources().getColor(R.color.colorPrimary),
@@ -53,20 +60,20 @@ public class CellPhone extends AppCompatActivity implements CellI {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mController.startcellfeching();
+                mController.startcategorycellfeching();
             }
         });
 
-
     }
 
     @Override
-    public void onFetchProgress1(CellPhones cellPhones) {
-        CellAdapter.addCell(cellPhones);
+    public void onFetchProgress(Specific_Model specific_model) {
+        speicificItemAdapter.addItem(specific_model);
     }
 
     @Override
-    public void onFetchProgress1(List<CellPhones> cellPhonesList) {
+    public void onFetchProgress1(List<Specific_Model> specificModelList) {
+
 
     }
 
