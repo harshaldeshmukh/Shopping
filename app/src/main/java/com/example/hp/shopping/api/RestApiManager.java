@@ -1,6 +1,6 @@
 package com.example.hp.shopping.api;
 
-import com.example.hp.shopping.Constants;
+import com.example.hp.shopping.Utils.Constants;
 import com.google.gson.GsonBuilder;
 
 import retrofit.RestAdapter;

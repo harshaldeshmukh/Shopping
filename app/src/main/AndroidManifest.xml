@@ -10,17 +10,19 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".VolleyApplication"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashScreen">
+        <activity android:name=".Activities.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity_Register" />
-        <activity android:name=".CellPhone" />
-        <activity android:name=".Activity_SinglePhone" />
+        <activity android:name=".Activities.Activity_Register" />
+        <activity android:name=".Activities.CellPhone" />
+        <activity android:name=".Activities.Activity_SinglePhone" />
+        <activity android:name=".Activities.Activity_Details"></activity>
     </application>
 
 </manifest>

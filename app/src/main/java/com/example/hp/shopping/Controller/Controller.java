@@ -2,14 +2,14 @@ package com.example.hp.shopping.Controller;
 
 import android.util.Log;
 
-import com.example.hp.shopping.CellI;
-import com.example.hp.shopping.CellPhone;
+import com.example.hp.shopping.Interfaces.CellI;
+import com.example.hp.shopping.Interfaces.SliderImages;
 import com.example.hp.shopping.Model.CellPhones;
 import com.example.hp.shopping.Model.Flower;
+import com.example.hp.shopping.Model.ImageSliders;
 import com.example.hp.shopping.Model.Specific_Model;
-import com.example.hp.shopping.Specificitem;
+import com.example.hp.shopping.Interfaces.Specificitem;
 import com.example.hp.shopping.api.RestApiManager;
-import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,10 +23,11 @@ import retrofit.client.Response;
 
 public class Controller {
     private   static  final  String TAG=Controller.class.getSimpleName();
-   private RestApiManager restApiManager;
+    private RestApiManager restApiManager;
     private FlowerCallbackListener mListener;
     private CellI cellI;
     private Specificitem specificitem;
+    private SliderImages sliderImages;
 
     public Controller( FlowerCallbackListener mListener) {
         this.mListener = mListener;
@@ -40,6 +41,11 @@ public class Controller {
 
     public Controller( Specificitem specificitem) {
         this.specificitem=specificitem;
+        restApiManager= new RestApiManager();
+    }
+
+    public Controller( SliderImages sliderImages) {
+        this.sliderImages=sliderImages;
         restApiManager= new RestApiManager();
     }
 
@@ -111,8 +117,8 @@ public class Controller {
         });
     }
 
-    public  void  startcategorycellfeching(){
-        restApiManager.getPhoneApi().getCategoryCells(new Callback<String>() {
+    public  void  startcategorycellfeching(String category_id){
+        restApiManager.getPhoneApi().getCategoryCells(category_id,new Callback<String>() {
             @Override
             public void success(String s, Response response) {
                 Log.d(TAG, "JSON ::::" + s);
@@ -122,11 +128,14 @@ public class Controller {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
 
+
+
                         JSONObject productJsonObject = object.getJSONObject("main_pair");
 
                         JSONObject productJsonObject1 = productJsonObject.getJSONObject("detailed");
-                        Specific_Model specificModel = new Specific_Model.Builder()  .setProduct(object.getString("product"))
+                        Specific_Model specificModel = new Specific_Model.Builder()  .setProduct(object.getString("product")).setProduct_id(object.getString("product_id"))
                                 .setProduct_code(object.getString("product_code")).setFree_shipping(object.getString("free_shipping"))
+                                .setPrice(object.getString("price"))
                                 .setImage_path(productJsonObject1.getString("image_path"))
 
                                 .build();
@@ -142,11 +151,41 @@ public class Controller {
             @Override
             public void failure(RetrofitError error) {
                 Log.d(TAG, "Error :: " + error.getMessage());
-                cellI.onFetchComplete();
+                specificitem.onFetchComplete();
 
             }
         });
     }
+
+
+//    public void sliderimagefetch(){
+//        restApiManager.getPhoneApi().getSilderImages(new Callback<String>() {
+//            @Override
+//            public void success(String s, Response response) {
+//                Log.d(TAG, "JSON ::::" + s);
+//                try {
+//                    JSONObject jsonRoot = new JSONObject(s);
+//                    JSONObject jsonObject = jsonRoot.getJSONObject("main_pair");
+//                    JSONObject productJsonObject1 = jsonObject.getJSONObject("detailed");
+//                        ImageSliders imageSliders = new ImageSliders.Builder() .addPath(productJsonObject1.getString("image_path"))
+//                                .build();
+//                        sliderImages.onFetchProgress(imageSliders);
+//
+//                }catch (JSONException e){
+//                    e.printStackTrace();
+//                    sliderImages.onFetchFailed();
+//                }
+//                sliderImages.onFetchComplete();
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//                Log.d(TAG, "Error :: " + error.getMessage());
+//                sliderImages.onFetchComplete();
+//
+//            }
+//        });
+//    }
 
 
 

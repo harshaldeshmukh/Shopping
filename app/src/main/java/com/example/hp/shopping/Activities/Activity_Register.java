@@ -1,4 +1,4 @@
-package com.example.hp.shopping;
+package com.example.hp.shopping.Activities;
 
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.hp.shopping.Adapters.CellAdapter;
 import com.example.hp.shopping.Controller.Controller;
 import com.example.hp.shopping.Model.Flower;
+import com.example.hp.shopping.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,7 @@ public class Activity_Register extends AppCompatActivity implements Controller.F
   private SwipeRefreshLayout swipeRefreshLayout;
   private List<Flower> mflowerList = new ArrayList<>();
 
-  public   FlowerAdapter flowerAdapter;
+  public CellAdapter.FlowerAdapter flowerAdapter;
     public Controller mController;
     private boolean loading = true;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
@@ -71,7 +73,7 @@ public class Activity_Register extends AppCompatActivity implements Controller.F
 
 
 
-        flowerAdapter = new FlowerAdapter(mflowerList,recyclerView);
+        flowerAdapter = new CellAdapter.FlowerAdapter(mflowerList,recyclerView);
         recyclerView.setAdapter(flowerAdapter);
 //        flowerAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
 //            @Override

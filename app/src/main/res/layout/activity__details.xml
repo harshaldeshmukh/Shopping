@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.Activity_SinglePhone">
+    tools:context=".Activities.Activity_Details">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarsss"
         android:layout_width="match_parent"
@@ -20,6 +21,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="#fff"
                 android:gravity="center"
+                android:text="Product Details"
                 style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                 />
 
@@ -27,27 +29,27 @@
 
     </android.support.v7.widget.Toolbar>
 
-
-    <RelativeLayout
-    android:layout_below="@+id/toolbarsss"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swiperefresh"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_slider"
+        android:layout_below="@+id/toolbarsss"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycleview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_marginTop="010dp"
+        android:layout_height="250dp" />
 
 
-        </android.support.v7.widget.RecyclerView>
+
+    <android.support.design.widget.TabLayout
+    android:id="@+id/tabDots"
+    android:layout_below="@+id/vp_slider"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+        app:tabMinWidth="-5dp"
+        android:layout_centerHorizontal="true"
+        app:tabBackground="@drawable/tab_selector"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp"/>
 
 
-    </android.support.v4.widget.SwipeRefreshLayout>
 
-</RelativeLayout>
 
 </RelativeLayout>

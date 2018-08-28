@@ -1,4 +1,4 @@
-package com.example.hp.shopping;
+package com.example.hp.shopping.Activities;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -10,15 +10,17 @@ import android.widget.TextView;
 
 import com.example.hp.shopping.Adapters.SpeicificItemAdapter;
 import com.example.hp.shopping.Controller.Controller;
+import com.example.hp.shopping.Interfaces.Specificitem;
 import com.example.hp.shopping.Model.Specific_Model;
+import com.example.hp.shopping.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Activity_SinglePhone extends AppCompatActivity implements  Specificitem {
+public class Activity_SinglePhone extends AppCompatActivity implements Specificitem {
     Toolbar toolbar;
     TextView mTitle;
-    String toolbartitle;
+    String toolbartitle,category_id;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private List<Specific_Model> specificModelList = new ArrayList<>();
@@ -35,13 +37,14 @@ public class Activity_SinglePhone extends AppCompatActivity implements  Specific
         toolbar = (Toolbar)findViewById(R.id.toolbarsss);
 
         toolbartitle=getIntent().getStringExtra("headline");
+        category_id=getIntent().getStringExtra("id");
          mTitle = (TextView) findViewById(R.id.toolbar_title);
          setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         mTitle.setText(toolbartitle);
         mController = new Controller(Activity_SinglePhone.this);
 
-        mController.startcategorycellfeching();
+        mController.startcategorycellfeching(category_id);
         recyclerView = (RecyclerView)findViewById(R.id.recycleview);
         swipeRefreshLayout=(SwipeRefreshLayout)findViewById(R.id.swiperefresh) ;
 
@@ -60,7 +63,8 @@ public class Activity_SinglePhone extends AppCompatActivity implements  Specific
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mController.startcategorycellfeching();
+                specificModelList.clear();
+                mController.startcategorycellfeching(category_id);
             }
         });
 

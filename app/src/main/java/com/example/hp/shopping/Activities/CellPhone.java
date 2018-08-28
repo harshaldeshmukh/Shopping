@@ -1,4 +1,4 @@
-package com.example.hp.shopping;
+package com.example.hp.shopping.Activities;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.hp.shopping.Adapters.CellAdapter;
 import com.example.hp.shopping.Controller.Controller;
+import com.example.hp.shopping.Interfaces.CellI;
 import com.example.hp.shopping.Model.CellPhones;
+import com.example.hp.shopping.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +20,7 @@ public class CellPhone extends AppCompatActivity implements CellI {
     private SwipeRefreshLayout swipeRefreshLayout;
     private List<CellPhones> cellPhonesList = new ArrayList<>();
 
-    public   CellAdapter CellAdapter;
+    public com.example.hp.shopping.Adapters.CellAdapter CellAdapter;
     public Controller mController;
 
     LinearLayoutManager mLayoutManager;

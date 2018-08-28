@@ -1,9 +1,12 @@
-package com.example.hp.shopping;
+package com.example.hp.shopping.Activities;
 
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.hp.shopping.Activities.CellPhone;
+import com.example.hp.shopping.R;
 
 public class SplashScreen extends AppCompatActivity {
 
