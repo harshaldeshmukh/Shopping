@@ -18,7 +18,9 @@ import com.example.hp.shopping.Controller.Controller;
 import com.example.hp.shopping.Interfaces.SliderImages;
 import com.example.hp.shopping.Model.ImageSliders;
 import com.example.hp.shopping.R;
+import com.example.hp.shopping.Utils.AppData;
 import com.example.hp.shopping.VolleyApplication;
+import com.viewpagerindicator.LinePageIndicator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,10 +42,14 @@ public class Activity_Details extends AppCompatActivity implements SliderImages 
     ArrayList<String> images;
     TabLayout tabDots;
     String product_id;
+    TextView producttitle;
+    AppData appData;
+    LinePageIndicator linePageIndicator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__details);
+        initFonts();
         initUi();
         controller = new Controller(Activity_Details.this);
 
@@ -54,10 +60,16 @@ public class Activity_Details extends AppCompatActivity implements SliderImages 
   public  void initUi(){
       images=new ArrayList<>();
       product_id=getIntent().getStringExtra("id");
+      producttitle=(TextView)findViewById(R.id.producttitle);
       vp_slider = (ViewPager) findViewById(R.id.vp_slider);
      // ll_dots = (LinearLayout) findViewById(R.id.ll_dots);
-      tabDots=(TabLayout)findViewById(R.id.tabDots);
+     // tabDots=(TabLayout)findViewById(R.id.tabDots);
+      linePageIndicator=(LinePageIndicator)findViewById(R.id.pageIndicator);
 
+    }
+
+    protected void initFonts() {
+        appData = AppData.getInstance(getApplicationContext());
     }
 
     private void fetchAllProducts() {
@@ -70,10 +82,12 @@ public class Activity_Details extends AppCompatActivity implements SliderImages 
                         try {
 
                             ImageSliders imageRecords = parseAll(jsonObject);
+                            producttitle.setText(imageRecords.getProduct_name());
+                            producttitle.setTypeface(appData.getFontSemiBolad());
                             images= imageRecords.getPath();
                                     sliderPagerAdapter= new SliderPagerAdapter(Activity_Details.this,images);
                             vp_slider.setAdapter(sliderPagerAdapter);
-                            tabDots.setupWithViewPager(vp_slider);
+                            linePageIndicator.setViewPager(vp_slider);
 
                         }
                         catch (JSONException e) {
@@ -101,6 +115,7 @@ public class Activity_Details extends AppCompatActivity implements SliderImages 
     private ImageSliders parseAll(JSONObject json) throws JSONException {
         ImageSliders imageSliders = new ImageSliders();
         imageSliders.setCompany_name(json.getString("company_name"));
+        imageSliders.setProduct_name(json.getString("product"));
         JSONObject jsonObject = json.getJSONObject("main_pair");
         JSONObject productJsonObject1 = jsonObject.getJSONObject("detailed");
         imageSliders.addPath(productJsonObject1.getString("image_path"));

@@ -28,26 +28,48 @@
         </RelativeLayout>
 
     </android.support.v7.widget.Toolbar>
+    <TextView
+        android:id="@+id/producttitle"
+        android:layout_below="@+id/toolbarsss"
+        android:layout_width="match_parent"
+
+        android:gravity="center"
+        android:background="@color/colorPrimary"
+        android:textSize="20dp"
+        android:textColor="#fff"
+        android:layout_height="wrap_content" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_slider"
-        android:layout_below="@+id/toolbarsss"
+        android:layout_below="@+id/producttitle"
         android:layout_width="match_parent"
         android:layout_marginTop="010dp"
         android:layout_height="250dp" />
 
 
 
-    <android.support.design.widget.TabLayout
-    android:id="@+id/tabDots"
-    android:layout_below="@+id/vp_slider"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-        app:tabMinWidth="-5dp"
-        android:layout_centerHorizontal="true"
-        app:tabBackground="@drawable/tab_selector"
-        app:tabGravity="center"
-        app:tabIndicatorHeight="0dp"/>
+
+    <!--<android.support.design.widget.TabLayout-->
+        <!--android:id="@+id/tabDots"-->
+        <!--android:layout_below="@+id/vp_slider"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:tabMinWidth="-5dp"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--app:tabBackground="@drawable/tab_selector"-->
+        <!--app:tabGravity="center"-->
+        <!--app:tabIndicatorHeight="0dp"/>-->
+    <com.viewpagerindicator.LinePageIndicator
+        android:id="@+id/pageIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vp_slider"
+        app:lineWidth="10dp"
+
+
+        app:selectedColor="@color/colorPrimary"
+        app:strokeWidth="3dp"
+        app:unselectedColor="@color/colorGrayDark" />
 
 
 

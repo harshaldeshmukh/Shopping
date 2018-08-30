@@ -6,6 +6,15 @@ import java.util.List;
 
 public class ImageSliders implements Serializable {
     private  String company_name;
+    private String product_name;
+
+    public String getProduct_name() {
+        return product_name;
+    }
+
+    public void setProduct_name(String product_name) {
+        this.product_name = product_name;
+    }
 
     private ArrayList<String> Path = new ArrayList<String>();
 
